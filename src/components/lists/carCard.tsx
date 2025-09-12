@@ -1,7 +1,8 @@
-/* eslint-disable react-native/no-inline-styles */
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { styled } from 'styled-components/native';
-import { ICarList } from '../../interface';
+import { ICarList } from '../../interface/car';
+import { IScreenNavigationProps } from '../../interface/navigation';
 import theme from '../../styles/theme';
 
 interface IPropsList {
@@ -10,18 +11,21 @@ interface IPropsList {
 
 const CarCard: React.FunctionComponent<IPropsList> = ({ data }) => {
   const [loadImg, setLoadImg] = useState<boolean>(true);
+  const { navigate } = useNavigation<IScreenNavigationProps>();
 
   const handleLoadImg = () => {
     setLoadImg(false);
   };
 
   return (
-    <Container>
+    <Container
+      activeOpacity={0.8}
+      onPress={() => navigate('Detalhes do veículo', data.id)}
+    >
       <ImageCar
         source={{ uri: data.images }}
         resizeMode="cover"
         onLoad={handleLoadImg}
-        // style={{ display: loadImg ? 'none' : 'flex' }}
       />
 
       {loadImg && <LoadingImg size={'large'} color={theme.colors.golden} />}
@@ -45,7 +49,7 @@ const CarCard: React.FunctionComponent<IPropsList> = ({ data }) => {
 
 export default CarCard;
 
-const Container = styled.View`
+const Container = styled.TouchableOpacity`
   width: 100%;
   border-radius: 2px;
   background-color: ${theme.colors.backgroundSecondary};

@@ -10,7 +10,8 @@ import ModalVerifieldEmail from '../../../components/modals/modalVerifieldEmail'
 import { PrimaryButton, SecondaryButton } from '../../../components/SendButton';
 import { Spacer } from '../../../components/spacer';
 import { AuthContext } from '../../../contexts/auth.context';
-import { IRecoverPassword, IScreenNavigation } from '../../../interface';
+import { IRecoverPassword } from '../../../interface/auth';
+import { IScreenNavigation } from '../../../interface/navigation';
 import LogoComponent from '../components/logo';
 import { Title } from '../styled';
 

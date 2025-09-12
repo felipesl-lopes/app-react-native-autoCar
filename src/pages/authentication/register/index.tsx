@@ -9,13 +9,14 @@ import {
   InputControl,
   InputPasswordControl,
 } from '../../../components/inputComponent';
+import ModalVerifieldEmail from '../../../components/modals/modalVerifieldEmail';
 import { PrimaryButton, SecondaryButton } from '../../../components/SendButton';
 import { Spacer } from '../../../components/spacer';
 import { AuthContext } from '../../../contexts/auth.context';
-import { IFormRegister, IScreenNavigation } from '../../../interface';
+import { IFormRegister } from '../../../interface/auth';
+import { IScreenNavigation } from '../../../interface/navigation';
 import LogoComponent from '../components/logo';
 import { Title } from '../styled';
-import ModalVerifieldEmail from '../../../components/modals/modalVerifieldEmail';
 
 const Register: React.FunctionComponent = () => {
   const { navigate } = useNavigation<IScreenNavigation>();

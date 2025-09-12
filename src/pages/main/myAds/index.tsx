@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-// import { ICarList } from "../../../interface";
 import ComponentVerifielEmail from '../../../components/componentVerifieldEmail';
 import ContainerComponent from '../../../components/container';
 import CarList from '../../../components/lists/carList';
@@ -7,41 +6,39 @@ import { Spacer } from '../../../components/spacer';
 import { AuthContext } from '../../../contexts/auth.context';
 import { ICarList } from '../../../interface/car';
 import axiosService from '../../../services/api';
+import { showToast } from '../../../components/showToast';
 
-const MyFavorites: React.FunctionComponent = () => {
+const MyAds: React.FunctionComponent = () => {
   const { emailVerified, user } = useContext(AuthContext);
   const [carList, setCarList] = useState<ICarList[]>([]);
 
   useEffect(() => {
     (async () => {
-      const uidUser = user?.uid;
       await axiosService
-        .get('/firestore/carList/favorites', { params: { uidUser } })
+        .get('/firestore/carList')
         .then(({ data }) => {
           let list = [] as ICarList[];
           setCarList([]);
           data.forEach((doc: ICarList) => {
-            list.push({
-              uidUser: doc.uidUser,
-              id: doc.id,
-              name: doc.name,
-              year: doc.year,
-              price: doc.price,
-              city: doc.city,
-              km: doc.km,
-              images: doc.images,
-              uf: doc.uf,
-              model: doc.model,
-            });
+            if (user?.uid === doc.uidUser) {
+              list.push({
+                uidUser: doc.uidUser,
+                id: doc.id,
+                name: doc.name,
+                year: doc.year,
+                price: doc.price,
+                city: doc.city,
+                km: doc.km,
+                images: doc.images,
+                uf: doc.uf,
+              });
+            }
           });
           setCarList(list);
         })
         .catch(() => {
-          // toast.error('Erro ao exibir veículos');
+          showToast('error', 'Erro ao exibir os veículos');
         });
-
-      console.log('Carregou');
-
       return;
     })();
   }, [user?.uid]);
@@ -50,8 +47,8 @@ const MyFavorites: React.FunctionComponent = () => {
     return (
       <ComponentVerifielEmail
         email={user?.email as string}
-        title="Meus favoritos"
-        text="Verifique seu e-mail para adicionar seus favoritos."
+        title="Meus anúncios"
+        text="Verifique seu e-mail para adicionar seus anúncios."
       />
     );
   }
@@ -65,4 +62,4 @@ const MyFavorites: React.FunctionComponent = () => {
   );
 };
 
-export default MyFavorites;
+export default MyAds;

@@ -1,17 +1,16 @@
 import React, { ReactNode } from 'react';
 import { styled } from 'styled-components/native';
-import HeaderProfileComponent from '../headerProfile';
 import MenuDrawer from '../menuDrawer';
 
 interface IProps {
   children: ReactNode;
+  title: string;
 }
 
-const MainLayout: React.FunctionComponent<IProps> = ({ children }) => {
+const MainLayout: React.FunctionComponent<IProps> = ({ children, title }) => {
   return (
     <Container>
-      <MenuDrawer />
-      <HeaderProfileComponent />
+      <MenuDrawer title={title} />
       <Containt>{children}</Containt>
     </Container>
   );

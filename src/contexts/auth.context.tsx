@@ -1,11 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
-import {
-  IFormLogin,
-  IFormRegister,
-  IRecoverPassword,
-  IUser,
-} from '../interface';
+import { IFormLogin, IFormRegister, IRecoverPassword } from '../interface/auth';
+import { IUser } from '../interface/user';
 import axiosService from '../services/api';
 import { removeCredentials, saveCredentials } from '../services/keychain';
 

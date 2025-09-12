@@ -3,7 +3,7 @@
 import React from 'react';
 import { FlatList, FlatListProps, View } from 'react-native';
 import { styled } from 'styled-components/native';
-import { ICarList } from '../../interface';
+import { ICarList } from '../../interface/car';
 import CarCard from './carCard';
 
 interface IProps {

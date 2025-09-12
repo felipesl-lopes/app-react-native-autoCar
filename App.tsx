@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import { AuthProvider } from './src/contexts/auth.context';
 import Routes from './src/routes';
 import theme from './src/styles/theme';
+import Toast from 'react-native-toast-message'; // 👈 importa o Toast
 
 const App: React.FunctionComponent = () => {
   return (
@@ -11,6 +12,7 @@ const App: React.FunctionComponent = () => {
       <AuthProvider>
         <ThemeProvider theme={theme}>
           <Routes />
+          <Toast />
         </ThemeProvider>
       </AuthProvider>
     </NavigationContainer>
