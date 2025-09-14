@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
-import { Button } from 'react-native';
 import ContainerComponent from '../../../components/container';
+import { PrimaryButton } from '../../../components/SendButton';
+import { Spacer } from '../../../components/spacer';
 import { AuthContext } from '../../../contexts/auth.context';
-import { Container, Title } from './styled';
 import CarouselAd from './components/carouselAd';
+import { Container, Title } from './styled';
 
 const Home: React.FunctionComponent = () => {
   const { handleLogout } = useContext(AuthContext);
@@ -13,7 +14,8 @@ const Home: React.FunctionComponent = () => {
       <CarouselAd />
       <ContainerComponent>
         <Title>Carros novos e usados em todo o Brasil</Title>
-        <Button onPress={handleLogout} title="Sair" />
+        <Spacer spacing={4} />
+        <PrimaryButton onPress={handleLogout} title="Sair" />
       </ContainerComponent>
     </Container>
   );

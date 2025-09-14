@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useContext, useEffect, useState } from 'react';
 import { Alert, Linking, ScrollView, View } from 'react-native';
 import ContainerComponent from '../../../components/container';
@@ -11,6 +11,9 @@ import FavoriteCarButton from './favoriteCarButton';
 
 import CarouselCars from '../../../components/carouselCars/list';
 import LoadScreenIndicator from '../../../components/loadScreenIndicator';
+import { showToast } from '../../../components/showToast';
+import { IScreenNavigation } from '../../../interface/navigation';
+import axiosService from '../../../services/api';
 import {
   Button,
   ButtonShared,
@@ -33,6 +36,7 @@ const VehicleDetails: React.FunctionComponent = () => {
   const [car, setCar] = useState<IFormNewCar | null>();
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState<boolean>(true);
+  const { navigate } = useNavigation<IScreenNavigation>();
 
   /**
    * Função assíncrona para buscar dados do anuncio no DB.
@@ -76,19 +80,25 @@ const VehicleDetails: React.FunctionComponent = () => {
    * Função para excluir o veículo a venda.
    */
   const deleteAd = async () => {
-    // const confirm = window.confirm(
-    //   'Você deseja realmente excluir esse anúncio?',
-    // );
-    // if (confirm) {
-    //   let data = { imgList: car?.images };
-    //   await axiosService
-    //     .delete(`/firestore/deleteAd/${id}`, { data })
-    //     .then(() => {
-    //       toast.success('Anúncio deletado com sucesso!');
-    //       navigate('/dashboard/meus-veiculos');
-    //     })
-    //     .catch(() => toast.error('Erro ao tentar deletar o anúncio.'));
-    // }
+    Alert.alert('Excluir anúncio', 'Deseja realmente excluir este anúncio?', [
+      {
+        onPress: async () => {
+          let data = { imgList: car?.images };
+          await axiosService
+            .delete(`/firestore/deleteAd/${id}`, { data })
+            .then(() => {
+              showToast('success', 'Anúncio deletado com sucesso!');
+              navigate('Meus anúncios');
+            })
+            .catch(() => showToast('error', 'Erro ao tentar deletar anúncio!'));
+        },
+        text: 'Confirmar',
+      },
+      {
+        style: 'cancel',
+        text: 'Cancelar',
+      },
+    ]);
   };
 
   if (loading) {

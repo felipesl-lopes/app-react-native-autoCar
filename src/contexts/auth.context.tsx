@@ -90,10 +90,21 @@ export const AuthProvider: React.FunctionComponent<IProps> = ({ children }) => {
   };
 
   const handleLogout = async () => {
-    await axiosService('/auth/logout').then(async () => {
-      await removeCredentials();
-      setUser(null);
-    });
+    Alert.alert('Sair', 'Você precisará se logar na próxima vez.', [
+      {
+        onPress: async () => {
+          await axiosService('/auth/logout').then(async () => {
+            await removeCredentials();
+            setUser(null);
+          });
+        },
+        text: 'Confirmar',
+      },
+      {
+        style: 'cancel',
+        text: 'Cancelar',
+      },
+    ]);
   };
 
   return (

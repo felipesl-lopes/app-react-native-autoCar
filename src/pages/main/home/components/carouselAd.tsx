@@ -6,7 +6,12 @@ import {
   View,
   ViewToken,
 } from 'react-native';
-import { useSharedValue } from 'react-native-reanimated';
+import Animated, {
+  scrollTo,
+  useAnimatedRef,
+  useDerivedValue,
+  useSharedValue,
+} from 'react-native-reanimated';
 import { styled } from 'styled-components/native';
 import Pagination from '../../../../components/carouselCars/pagination';
 import { ISliders_Home } from '../../../../interface/car';
@@ -54,6 +59,30 @@ const Carousel: React.FunctionComponent<IPropsCarousel> = ({
 }) => {
   const scrollX = useSharedValue(0);
   const [paginationIndex, setPaginationIndex] = useState(0);
+  const [isAutoPlay, setIsAutoPlay] = useState(true);
+  const ref = useAnimatedRef<Animated.FlatList<any>>();
+  const interval = useRef<NodeJS.Timeout>();
+  const offSet = useSharedValue(0);
+
+  const { width } = Dimensions.get('screen');
+
+  useEffect(() => {
+    if (isAutoPlay === true) {
+      interval.current = setInterval(() => {
+        offSet.value = offSet.value + width;
+      }, 5000);
+    } else {
+      clearInterval(interval.current);
+    }
+
+    return () => {
+      clearInterval(interval.current);
+    };
+  }, [isAutoPlay, offSet, width]);
+
+  useDerivedValue(() => {
+    scrollTo(ref, offSet.value, 0, true);
+  });
 
   const onViewableItemsChanged = ({
     viewableItems,
@@ -82,6 +111,7 @@ const Carousel: React.FunctionComponent<IPropsCarousel> = ({
         data={data}
         keyExtractor={item => item.url}
         horizontal
+        ref={ref}
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
