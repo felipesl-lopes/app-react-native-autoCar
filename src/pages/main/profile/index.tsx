@@ -1,16 +1,15 @@
 import React from 'react';
+import ActionCard from './components/actionCard';
+import HeaderProfileComponent from './components/headerProfile';
+import { Container } from './styled';
 import ContainerComponent from '../../../components/container';
-import HeaderProfileComponent from './headerProfile';
-import { Container, Title } from './styled';
-import { Spacer } from '../../../components/spacer';
 
 const Profile: React.FunctionComponent = () => {
   return (
     <Container>
+      <HeaderProfileComponent />
       <ContainerComponent>
-        <Title>Perfil</Title>
-        <Spacer spacing={3} />
-        <HeaderProfileComponent />
+        <ActionCard />
       </ContainerComponent>
     </Container>
   );
